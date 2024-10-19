@@ -1,43 +1,45 @@
 from database import db
 from utils.helpers import format_datetime
 
-
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    sku = db.Column(db.String(50), unique=True, nullable=False)
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200))
-    quantity = db.Column(db.Integer, default=0)
+    stock_amount = db.Column(db.Integer, default=0)
     price = db.Column(db.Float, nullable=False)
+    cost = db.Column(db.Float, nullable=False)  # Cost field added
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
     def to_dict(self):
         return {
             'id': self.id,
+            'sku': self.sku,
             'name': self.name,
             'description': self.description,
-            'quantity': self.quantity,
+            'stock_amount': self.stock_amount,
             'price': self.price,
+            'cost': self.cost,
             'created_at': format_datetime(self.created_at),
             'updated_at': format_datetime(self.updated_at),
         }
 
 class Invoice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
-    amount = db.Column(db.Float, nullable=False)
+    sku = db.Column(db.String(50), db.ForeignKey('product.sku'), nullable=False)
+    stock_amount = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(50), default='pending')  # pending, paid, canceled
     issued_at = db.Column(db.DateTime, default=db.func.now())
 
     def to_dict(self):
         return {
             'id': self.id,
-            'product_id': self.product_id,
-            'amount': self.amount,
+            'sku': self.sku,
+            'stock_amount': self.stock_amount,
             'status': self.status,
             'issued_at': format_datetime(self.issued_at),
         }
-
 
 class Delivery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +57,27 @@ class Delivery(db.Model):
             'delivery_date': format_datetime(self.delivery_date) if self.delivery_date else None,
         }
 
+class Sale(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    customer_name = db.Column(db.String(100), nullable=False)
+    stock_amount = db.Column(db.Float, nullable=False)
+    sale_date = db.Column(db.DateTime, default=db.func.now())
+    sku = db.Column(db.String(50), db.ForeignKey('product.sku'), nullable=False)
+    product = db.relationship('Product', backref='sales', lazy=True)
+    delivery_status = db.Column(db.String(50), default='pending')
+    invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'), nullable=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'customer_name': self.customer_name,
+            'stock_amount': self.stock_amount,
+            'sale_date': self.sale_date.isoformat(),
+            'sku': self.sku,
+            'product_name': self.product.name,
+            'delivery_status': self.delivery_status,
+            'invoice_id': self.invoice_id
+        }
 
 class FinanceReport(db.Model):
     id = db.Column(db.Integer, primary_key=True)

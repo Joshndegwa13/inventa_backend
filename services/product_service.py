@@ -10,19 +10,26 @@ def get_all_products():
 def get_product_by_id(product_id):
     return Product.query.get(product_id)
 
+# services/product_service.py
+
 def add_product(data):
     errors = validate_product_data(data)
     if errors:
         return None, errors
+
     new_product = Product(
+        sku=data['sku'],
         name=data['name'],
-        description=data.get('description', ''),
-        quantity=data['quantity'],
-        price=data['price']
+        description=data['description'],
+        stock_amount=data['stock_amount'],
+        price=data['price'],
+        cost=data.get('cost', 0)  # Default cost to 0 if not provided
     )
+
     db.session.add(new_product)
     db.session.commit()
     return new_product, None
+
 
 def delete_product(product_id):
     product = get_product_by_id(product_id)
