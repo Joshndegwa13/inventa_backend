@@ -1,41 +1,41 @@
-# app.py
-
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 
 from database import db
-
 from routes.product_routes import product_bp
 from routes.finance_routes import finance_bp
 from routes.delivery_routes import delivery_bp
 from routes.invoice_routes import invoice_bp
 from routes.sales_routes import bp
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
-app.config.from_object('config.Config')
+def create_app():
+    app = Flask(__name__)
+    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+    app.config.from_object('config.Config')
 
-db.init_app(app)
-migrate = Migrate(app, db)
+    db.init_app(app)
+    migrate = Migrate(app, db)
 
-# Register Blueprints
-app.register_blueprint(product_bp, url_prefix = '/api/products')
-app.register_blueprint(finance_bp, url_prefix ='/api/finances')
-app.register_blueprint(delivery_bp, url_prefix  ='/api/delivery')
-app.register_blueprint(invoice_bp, url_prefix = '/api/invoices')
-app.register_blueprint(bp, url_prefix = '/api/sales')
+    # Register Blueprints
+    app.register_blueprint(product_bp, url_prefix='/api/products')
+    app.register_blueprint(finance_bp, url_prefix='/api/finances')
+    app.register_blueprint(delivery_bp, url_prefix='/api/delivery')
+    app.register_blueprint(invoice_bp, url_prefix='/api/invoices')
+    app.register_blueprint(bp, url_prefix='/api/sales')
 
-@app.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    return response
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        return response
 
-@app.route('/')
-def index():
-    return jsonify(message="Welcome to the Inventory Management API! Refer to /api for more information.")
+    @app.route('/')
+    def index():
+        return jsonify(message="Welcome to the Inventory Management API! Refer to /api for more information.")
+
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug=True, port=5555)
-    print("Running")
