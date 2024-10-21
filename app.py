@@ -1,5 +1,5 @@
 # app.py
-
+import os 
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
