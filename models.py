@@ -1,5 +1,9 @@
 from database import db
 from utils.helpers import format_datetime
+from datetime import datetime
+from sqlalchemy.orm import relationship
+
+
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +15,9 @@ class Product(db.Model):
     cost = db.Column(db.Float, nullable=False)  # Cost field added
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+    sales = relationship('Sale', back_populates='product')
+
 
     def to_dict(self):
         return {
@@ -61,11 +68,14 @@ class Sale(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer_name = db.Column(db.String(100), nullable=False)
     stock_amount = db.Column(db.Float, nullable=False)
-    sale_date = db.Column(db.DateTime, default=db.func.now())
     sku = db.Column(db.String(50), db.ForeignKey('product.sku'), nullable=False)
     product = db.relationship('Product', backref='sales', lazy=True)
     delivery_status = db.Column(db.String(50), default='pending')
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'), nullable=True)
+    sale_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    product = relationship('Product', back_populates='sales')
+
 
     def to_dict(self):
         return {
