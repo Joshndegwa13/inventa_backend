@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f934f992-44b8-4b9b-a274-2548adaaca33" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inventa_backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inventa_backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/sales_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/sales_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/product_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/product_routes.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
