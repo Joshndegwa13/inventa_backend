@@ -14,3 +14,4 @@ response~=0.5.0
 pillow~=10.4.0
 SQLAlchemy~=2.0.29
 alembic~=1.13.3
+gunicorn==21.2.0
