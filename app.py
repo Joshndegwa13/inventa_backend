@@ -8,7 +8,8 @@ from routes.product_routes import product_bp
 from routes.finance_routes import finance_bp
 from routes.delivery_routes import delivery_bp
 from routes.invoice_routes import invoice_bp
-from routes.sales_routes import bp
+from routes.sales_routes import sales_bp
+
 
 def create_app():
     app = Flask(__name__)
@@ -23,7 +24,8 @@ def create_app():
     app.register_blueprint(finance_bp, url_prefix='/api/finances')
     app.register_blueprint(delivery_bp, url_prefix='/api/delivery')
     app.register_blueprint(invoice_bp, url_prefix='/api/invoices')
-    app.register_blueprint(bp, url_prefix='/api/sales')
+    app.register_blueprint(sales_bp, url_prefix='/api/sales')
+
 
     @app.after_request
     def after_request(response):
@@ -38,6 +40,6 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Use PORT environment variable or fallback to 5000
+    port = int(os.environ.get("PORT", 5555))  # Use PORT environment variable or fallback to 5000
     app = create_app()  # Call create_app to initialize the app
     app.run(host='0.0.0.0', port=port)

@@ -9,3 +9,8 @@ python-dotenv==1.0.1
 Werkzeug==3.0.4
 Flask-SQLAlchemy==3.0.5
 Flask-Migrate==4.0.4
+pip~=24.2
+response~=0.5.0
+pillow~=10.4.0
+SQLAlchemy~=2.0.29
+alembic~=1.13.3
